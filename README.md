@@ -2,7 +2,7 @@
 
 Official website for the Women in STEM club at Western University.
 
-🔗 Live site: file:///Users/christacupid/Documents/women-in-stem-website/index.html
+🔗 Live site: for now, open the index.html file in cursor and 'go live'
 
 ## Structure
 
