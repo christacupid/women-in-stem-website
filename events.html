@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events | Women in STEM</title>
+<meta name="description" content="Upcoming and past events from Women in STEM at Western University.">
+<link rel="icon" href="images/logo/classic_logo.jpg" type="image/jpeg">
+<link rel="apple-touch-icon" href="images/logo/classic_logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main id="main">
+<section class="page-hero">
+  <div class="wrap">
+    <div class="eyebrow">Events</div>
+    <h1>What's happening at WIS</h1>
+    <p>Workshops, panels, socials, and more — open to all members. Most events are free; some require RSVP.</p>
+  </div>
+</section>
+
+<section class="events-dark">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Upcoming</div>
+      <h2>This term's events</h2>
+      <p>Open to all members. Most events are free; a few require RSVP because rooms are small.</p>
+    </div>
+    <div class="card-grid" id="upcoming-events"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Archive</div>
+      <h2>Past events</h2>
+      <p>Recaps and highlights from previous terms will be archived here.</p>
+    </div>
+    <div id="past-events"></div>
+  </div>
+</section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  initLayout("events");
+  document.getElementById("upcoming-events").innerHTML = renderEventCards(true);
+  document.getElementById("past-events").innerHTML = renderPastEvents();
+</script>
+</body>
+</html>

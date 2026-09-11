@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Women in STEM | Western University</title>
+<meta name="description" content="Learn about Women in STEM at Western University — our mission, pillars, values, and what we do for women and gender-diverse students in STEM.">
+<link rel="icon" href="images/logo/classic_logo.jpg" type="image/jpeg">
+<link rel="apple-touch-icon" href="images/logo/classic_logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main id="main">
+<section class="page-hero">
+  <div class="wrap">
+    <div class="eyebrow">About us</div>
+    <h1>Who we are</h1>
+    <p id="about-intro"></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow" id="mission-eyebrow"></div>
+      <h2 id="mission-title"></h2>
+      <div id="mission-description"></div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">What we do</div>
+      <h2>How we support our members</h2>
+    </div>
+    <div class="about-grid" id="pillars"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Values</div>
+      <h2>What we stand for</h2>
+    </div>
+    <div class="values-grid" id="values-grid"></div>
+  </div>
+</section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  initLayout("about");
+  document.getElementById("about-intro").textContent = WIS_DATA.about.whoWeAre;
+  document.getElementById("mission-eyebrow").textContent = WIS_DATA.mission.eyebrow;
+  document.getElementById("mission-title").textContent = WIS_DATA.mission.title;
+  document.getElementById("mission-description").innerHTML = WIS_DATA.mission.description.map((p) => `<p>${p}</p>`).join("");
+  document.getElementById("pillars").innerHTML = renderPillars();
+  document.getElementById("values-grid").innerHTML = renderValues();
+</script>
+</body>
+</html>

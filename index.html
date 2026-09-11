@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Women in STEM | Western University</title>
+<meta name="description" content="Women in STEM at Western University — community, mentorship, and events for women and gender-diverse students in science, technology, engineering, and math.">
+<link rel="icon" href="images/logo/classic_logo.jpg" type="image/jpeg">
+<link rel="apple-touch-icon" href="images/logo/classic_logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main id="main">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow" id="hero-location"></div>
+      <h1 id="hero-headline"></h1>
+      <div class="lede" id="hero-lede"></div>
+      <div class="hero-actions">
+        <a class="btn-primary" id="hero-join-btn" href="#" target="_blank" rel="noopener noreferrer">Join the community →</a>
+        <a class="btn-secondary" href="events.html">See upcoming events</a>
+      </div>
+    </div>
+    <div class="hero-logo">
+      <img id="hero-logo" src="" alt="Women in STEM logo">
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="wrap" id="stats-strip"></div>
+</div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head-row">
+      <div class="section-head">
+        <div class="eyebrow" id="mission-eyebrow"></div>
+        <h2 id="mission-title"></h2>
+        <div id="mission-description"></div>
+      </div>
+      <a class="btn-text" href="about.html">Learn more about us →</a>
+    </div>
+    <div class="about-grid" id="pillars"></div>
+    <div class="section-head about-closing">
+      <h2 id="about-closing-title"></h2>
+      <p id="about-closing-description"></p>
+    </div>
+  </div>
+</section>
+
+<section class="events" id="events">
+  <div class="wrap">
+    <div class="section-head-row">
+      <div class="section-head">
+        <div class="eyebrow">What's on</div>
+        <h2>Upcoming Events This Term</h2>
+        <p>Our events are open to all WIS members and students. Depending on the event, students may need to sign up in advance or purchase a ticket.</p>
+      </div>
+      <a class="btn-text btn-text-on-dark" href="events.html">View all events →</a>
+    </div>
+    <div class="event-list" id="event-list"></div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="wrap">
+    <div class="section-head-row">
+      <div class="section-head">
+        <div class="eyebrow">Our team</div>
+        <h2>Meet the Team</h2>
+        <p>Meet the incredible students behind WIS and learn more about the people who bring our club, events, and initiatives to life.</p>
+      </div>
+    </div>
+    <div id="team-preview"></div>
+    <div class="section-cta">
+      <a class="btn-primary" href="team.html">Meet the Full Team →</a>
+    </div>
+  </div>
+</section>
+
+<section class="bg-alt" id="get-involved">
+  <div class="wrap">
+    <div id="director-recruitment-callout"></div>
+    <div class="section-head">
+      <div class="eyebrow">Get involved</div>
+      <h2>Find your place in STEM</h2>
+      <p>No matter where you are in your degree, WIS is a space to meet others, explore your interests, and make your STEM experience at Western more meaningful.</p>
+    </div>
+    <div class="involve-grid" id="involve-grid"></div>
+  </div>
+</section>
+
+<section id="content">
+  <div class="wrap">
+    <div class="section-head-row">
+      <div class="section-head">
+        <div class="eyebrow">Community stories</div>
+        <h2>From the WIS Community</h2>
+        <p>Explore blog posts, podcast episodes, and Women in STEM Spotlights featuring stories, experiences, and perspectives from our community.</p>
+      </div>
+      <a class="btn-text" href="blog.html">View all content →</a>
+    </div>
+    <div id="latest-content"></div>
+  </div>
+</section>
+
+</main>
+
+<div id="site-footer"></div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  initLayout("home");
+
+  document.getElementById("hero-location").textContent = WIS_DATA.site.location;
+  document.getElementById("hero-headline").textContent = WIS_DATA.hero.headline;
+  document.getElementById("hero-lede").innerHTML = WIS_DATA.hero.lede.map((p) => `<p>${p}</p>`).join("");
+  document.getElementById("hero-logo").src = WIS_DATA.links.logo;
+  document.getElementById("hero-join-btn").href = getMembershipUrl();
+
+  document.getElementById("mission-eyebrow").textContent = WIS_DATA.mission.eyebrow;
+  document.getElementById("mission-title").textContent = WIS_DATA.mission.title;
+  document.getElementById("mission-description").innerHTML = WIS_DATA.mission.description.map((p) => `<p>${p}</p>`).join("");
+
+  document.getElementById("about-closing-title").textContent = WIS_DATA.home.closing.title;
+  document.getElementById("about-closing-description").textContent = WIS_DATA.home.closing.description;
+
+  document.getElementById("stats-strip").innerHTML = renderStats();
+  document.getElementById("pillars").innerHTML = renderPillars();
+  document.getElementById("event-list").innerHTML = renderEvents(3);
+  document.getElementById("team-preview").innerHTML = renderTeamPreview();
+  document.getElementById("director-recruitment-callout").innerHTML = renderDirectorRecruitmentCallout();
+  document.getElementById("involve-grid").innerHTML = renderHomeInvolvePaths();
+  document.getElementById("latest-content").innerHTML = renderLatestContentPreview();
+</script>
+</body>
+</html>

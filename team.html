@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Team | Women in STEM</title>
+<meta name="description" content="Meet the Women in STEM executive team at Western University.">
+<link rel="icon" href="images/logo/classic_logo.jpg" type="image/jpeg">
+<link rel="apple-touch-icon" href="images/logo/classic_logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main id="main">
+<section class="page-hero">
+  <div class="wrap">
+    <div class="eyebrow">Team</div>
+    <h1>Meet the senior exec team</h1>
+    <p>A student board elected each spring
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Executive team</div>
+      <h2>Who runs WIS</h2>
+    </div>
+    <div id="team-groups"></div>
+  </div>
+</section>
+
+<section class="bg-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Join us</div>
+      <h2>Want to join the team?</h2>
+      <p>We're recruiting directors and volunteers. See open roles on our Get Involved page.</p>
+    </div>
+    <a class="btn-primary" href="get-involved.html#team">View applications →</a>
+  </div>
+</section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  initLayout("team");
+  document.getElementById("team-groups").innerHTML = renderTeam(true);
+</script>
+</body>
+</html>
