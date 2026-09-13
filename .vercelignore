@@ -1,0 +1,7 @@
+.git
+.DS_Store
+*.CR2
+*.cr2
+WEBSITE_UPDATE_REQUIREMENTS.md
+test-images.html
+README.md

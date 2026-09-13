@@ -2,29 +2,40 @@
 
 Official website for the Women in STEM club at Western University.
 
-🔗 Live site: for now, open the index.html file in cursor and 'go live'
-
-## Structure
-
-- `index.html` — the entire site (HTML + CSS, no build tools required)
-- `images/` — logo and team photos
+This is a static multi-page site (HTML, CSS, and JS). No build step is required.
 
 ## Local development
 
-Just open `index.html` directly in a browser — no installation or server needed.
+Open `index.html` in a browser, or serve the folder:
 
-## Making changes
+```bash
+python3 -m http.server 8000
+```
 
-1. Create or switch to your branch: `git checkout your-name-edits`
-2. Edit `index.html` (colors are controlled by CSS variables near the top of the file)
-3. `git add .`
-4. `git commit -m "describe your change"`
-5. `git push`
-6. When ready to go live, merge into `main` — this triggers an automatic Vercel deploy
+Then visit `http://localhost:8000`.
 
-## Deployment
+## Structure
 
-Hosted on Vercel, connected to this repo. Any push to `main` auto-deploys.
+- `index.html` — homepage
+- `about.html`, `events.html`, `get-involved.html`, `team.html`, `blog.html`, `contact.html`, `resources.html` — site pages
+- `css/` and `js/` — shared styles and content
+- `images/` and `headshots/` — logo and team photos
+- `vercel.json` — Vercel static-site settings (`cleanUrls` so `/about` serves `about.html`)
+
+## Deployment (Vercel)
+
+The site is set up to deploy as a static project on Vercel.
+
+**Option A — GitHub (recommended for the club):**
+1. Push this repo to GitHub.
+2. In [Vercel](https://vercel.com/new), import the GitHub repository.
+3. Leave the framework preset as **Other** (no build command, output directory blank).
+4. Click Deploy. Later pushes to `main` will auto-deploy.
+
+**Option B — Vercel CLI:**
+```bash
+npx vercel --prod
+```
 
 ## Team
 
