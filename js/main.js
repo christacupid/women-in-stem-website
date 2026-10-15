@@ -63,61 +63,83 @@ function getMembershipUrl() {
   return membership && membership.url ? membership.url : null;
 }
 
-function getMentorshipUrl() {
-  const mentorship = WIS_DATA.mentorship;
-  return mentorship && mentorship.url ? mentorship.url : null;
+function getMembershipLabel() {
+  const membership = WIS_DATA.links.membership;
+  return (membership && membership.label) || "Become a Member";
+}
+
+function renderMembershipLink(className, label) {
+  const url = getMembershipUrl();
+  if (!url) return "";
+  return `<a class="${className}" href="${url}" target="_blank" rel="noopener noreferrer">${label || getMembershipLabel()}</a>`;
 }
 
 function getContactEmail() {
   return WIS_DATA.links.email;
 }
 
-/** Centralized Director application URL from data.js */
-function getDirectorApplicationUrl() {
-  const app = WIS_DATA.directorApplication;
-  return app && app.url ? app.url : null;
+function formatStudySessionLocation(session) {
+  if (session.room) return `${session.location}, ${session.room}`;
+  return session.location;
 }
 
-function renderDirectorApplyLink(label) {
-  const url = getDirectorApplicationUrl();
-  if (!url) return "";
-  return `<a class="btn-primary" href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+function studySessionToEvent(session) {
+  return {
+    title: `Study Session — ${session.theme}`,
+    category: "Academic",
+    date: session.date,
+    dateShort: session.dateShort,
+    isoDate: session.isoDate,
+    time: session.time || null,
+    location: formatStudySessionLocation(session),
+    description: null,
+    purpose: null,
+    registrationUrl: null,
+    status: session.status === "past" ? "Completed" : null,
+    notes: null,
+    recap: null,
+  };
 }
 
-/** Prominent recruitment section for get-involved.html */
-function renderDirectorRecruitmentSection() {
-  const app = WIS_DATA.directorApplication;
-  const url = getDirectorApplicationUrl();
-  if (!url) return "";
-  return `
-    <section class="bg-alt" id="director-applications">
-      <div class="wrap">
-        <div class="recruitment-banner">
-          <div class="section-head">
-            <div class="eyebrow">Join the WIS Team</div>
-            <h2>${app.title}</h2>
-            <p>WIS is hiring Directors for the 2026–27 year. Join our team, help shape the WIS community, and take on a leadership role within the club.</p>
-            <p class="recruitment-timing">${app.timing}</p>
-          </div>
-          ${renderDirectorApplyLink("Apply to Be a Director →")}
-        </div>
-      </div>
-    </section>`;
+function getSortDate(item) {
+  return item.isoDate || "";
 }
 
-/** Compact recruitment callout for the homepage */
-function renderDirectorRecruitmentCallout() {
-  const url = getDirectorApplicationUrl();
-  if (!url) return "";
-  return `
-    <div class="recruitment-callout">
-      <div>
-        <div class="eyebrow">Join the team</div>
-        <h2>Want to help shape WIS?</h2>
-        <p>Director applications for the 2026–27 year open in September.</p>
-      </div>
-      ${renderDirectorApplyLink("Apply to Be a Director →")}
-    </div>`;
+function compareByDateAsc(a, b) {
+  return getSortDate(a).localeCompare(getSortDate(b));
+}
+
+function getUpcomingEvents() {
+  const sessions = (WIS_DATA.studySessions || [])
+    .filter((session) => session.status !== "past")
+    .map(studySessionToEvent);
+  return [...WIS_DATA.events.upcoming, ...sessions].sort(compareByDateAsc);
+}
+
+function getPastEvents() {
+  const sessions = (WIS_DATA.studySessions || [])
+    .filter((session) => session.status === "past")
+    .map(studySessionToEvent);
+  return [...(WIS_DATA.events.past || []), ...sessions].sort((a, b) => compareByDateAsc(b, a));
+}
+
+function getPostponedEvents() {
+  return WIS_DATA.events.postponed || [];
+}
+
+function isComingSoon(item) {
+  return item.status === "Planned";
+}
+
+function getBlogPosts() {
+  const posts = (WIS_DATA.blogPosts || []).filter((post) => post.title);
+  const published = posts
+    .filter((post) => !isComingSoon(post))
+    .sort((a, b) => getSortDate(b).localeCompare(getSortDate(a)));
+  const upcoming = posts
+    .filter(isComingSoon)
+    .sort((a, b) => (getSortDate(a) || "9999").localeCompare(getSortDate(b) || "9999"));
+  return [...published, ...upcoming];
 }
 
 /** Flatten team groups into a single member list (preserves data.js order). */
@@ -153,7 +175,7 @@ function renderHeader(activeId) {
           <span class="brand-text">${site.name} - ${site.university}</span>
         </a>
         <div class="navlinks">${navLinks}</div>
-        <a class="nav-cta" href="${getMembershipUrl()}" target="_blank" rel="noopener noreferrer">Join us</a>
+        ${renderMembershipLink("nav-cta")}
         <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
           <span></span><span></span><span></span>
         </button>
@@ -161,7 +183,7 @@ function renderHeader(activeId) {
       <div class="mobile-nav" id="mobile-nav">
         ${mobileLinks}
         ${secondaryMobile}
-        <a class="nav-cta-mobile" href="${getMembershipUrl()}" target="_blank" rel="noopener noreferrer">Join us</a>
+        ${renderMembershipLink("nav-cta-mobile")}
       </div>
     </header>`;
 }
@@ -255,8 +277,9 @@ function renderPillars() {
 }
 
 function renderEvents(limit) {
-  const events = limit ? WIS_DATA.events.upcoming.slice(0, limit) : WIS_DATA.events.upcoming;
-  return events.map(
+  const events = getUpcomingEvents();
+  const shown = limit ? events.slice(0, limit) : events;
+  return shown.map(
     (e) => `
       <div class="event-row">
         <div class="event-date">${formatEventDateShort(e)}</div>
@@ -270,7 +293,7 @@ function renderEvents(limit) {
 }
 
 function renderEventCards(dark) {
-  return WIS_DATA.events.upcoming.map((e) => renderSingleEventCard(e, dark)).join("");
+  return getUpcomingEvents().map((e) => renderSingleEventCard(e, dark)).join("");
 }
 
 function renderSingleEventCard(e, dark) {
@@ -285,7 +308,7 @@ function renderSingleEventCard(e, dark) {
   return `
     <article class="card event-card">
       <span class="card-tag">${e.category || e.tag}</span>
-      <div class="event-date-block">${e.date}</div>
+      ${e.date ? `<div class="event-date-block">${e.date}</div>` : ""}
       <h3>${e.title}</h3>
       ${desc}
       ${purpose}
@@ -297,19 +320,31 @@ function renderSingleEventCard(e, dark) {
 }
 
 function renderPastEvents() {
-  if (!WIS_DATA.events.past.length) {
+  const past = getPastEvents();
+  if (!past.length) {
     return renderEmptyState("Past events will be archived here once available.");
   }
-  return `<div class="card-grid">${WIS_DATA.events.past.map(
-    (e) => `
+  return `<div class="card-grid">${past.map((e) => {
+    const recap = e.recap ? `<p>${e.recap}</p>` : "";
+    const date = e.date ? `<div class="card-meta">${e.date}</div>` : "";
+    const status = e.status ? `<p class="card-status">${e.status}</p>` : "";
+    return `
       <article class="card">
-        <span class="card-tag">${e.tag || "Event"}</span>
+        <span class="card-tag">${e.category || e.tag || "Event"}</span>
         <h3>${e.title}</h3>
-        <p>${e.recap || PLACEHOLDER_TEXT}</p>
-        <div class="card-meta">${e.date}</div>
-      </article>`
-  ).join("")}</div>`;
+        ${recap}
+        ${status}
+        ${date}
+      </article>`;
+  }).join("")}</div>`;
 }
+
+function renderPostponedEvents() {
+  const items = getPostponedEvents();
+  if (!items.length) return "";
+  return `<div class="card-grid">${items.map((e) => renderSingleEventCard(e, false)).join("")}</div>`;
+}
+
 function renderPerson(m, showPhotoPlaceholder) {
   let photoContent;
   if (m.image) {
@@ -346,20 +381,6 @@ function renderTeamPreview() {
   return `<div class="team-preview-grid">${members.map((m) => renderPerson(m, false)).join("")}</div>`;
 }
 
-function renderApplications() {
-  const appUrl = getDirectorApplicationUrl();
-  const isPending = !appUrl;
-  return WIS_DATA.applications.map(
-    (a) => `
-      <a class="apply-card${isPending ? " apply-card--pending" : ""}" href="${appUrl || "#"}"${isPending ? ' aria-disabled="true" tabindex="-1"' : ' target="_blank" rel="noopener noreferrer"'}>
-        <span class="mono">${a.department}</span>
-        <h3>${a.title}</h3>
-        <p>${a.description}</p>
-        <span class="apply-link">${isPending ? "Application link coming soon →" : "Apply to Be a Director →"}</span>
-      </a>`
-  ).join("");
-}
-
 function renderValues() {
   return WIS_DATA.values.map(
     (v) => `
@@ -380,21 +401,20 @@ function renderEmptyState(message, title) {
 
 function renderHomeInvolvePaths() {
   const membershipUrl = getMembershipUrl();
-  return `
+  const membershipCard = membershipUrl
+    ? `
     <a class="involve-card involve-card--link" href="${membershipUrl}" target="_blank" rel="noopener noreferrer">
       <h3>Become a Member</h3>
-      <p>Join WIS through the Western USC Storefront — get event invites, newsletters, and mentorship access.</p>
-      <span class="btn-text">Become a Member →</span>
-    </a>
-    <a class="involve-card involve-card--link" href="get-involved.html#team">
-      <h3>Join Our Team</h3>
-      <p>Apply for director roles in marketing, operations, and finance.</p>
-      <span class="btn-text">View applications →</span>
-    </a>
-    <a class="involve-card involve-card--link" href="get-involved.html#mentorship">
-      <h3>Mentorship</h3>
-      <p>Get matched with an upper-year mentor or volunteer to mentor others.</p>
-      <span class="btn-text">Learn more →</span>
+      <p>Join WIS to get event invites, newsletters, and access to club programming.</p>
+      <span class="btn-text">Sign Up →</span>
+    </a>`
+    : "";
+  return `
+    ${membershipCard}
+    <a class="involve-card involve-card--link" href="events.html">
+      <h3>Come to an Event</h3>
+      <p>Study sessions, socials, and career events are open to members and students.</p>
+      <span class="btn-text">See upcoming events →</span>
     </a>
     <a class="involve-card involve-card--link" href="get-involved.html#partnership">
       <h3>Partner With Us</h3>
@@ -404,7 +424,7 @@ function renderHomeInvolvePaths() {
 }
 
 function renderLatestContentPreview() {
-  const blogPosts = WIS_DATA.blogPosts.filter((p) => p.title);
+  const blogPosts = getBlogPosts();
   const podcastEpisodes = WIS_DATA.podcastEpisodes.filter((ep) => ep.title);
   const hasBlog = blogPosts.length > 0;
   const hasPodcast = podcastEpisodes.length > 0;
@@ -450,6 +470,9 @@ function renderContentCard(item, type) {
   const listenLink = type === "podcast" && item.listeningUrl
     ? `<a class="btn-text card-link" href="${item.listeningUrl}" target="_blank" rel="noopener noreferrer">Listen →</a>`
     : "";
+  const readLink = type === "blog" && item.url
+    ? `<a class="btn-text card-link" href="${item.url}" target="_blank" rel="noopener noreferrer">Read →</a>`
+    : "";
   return `
     <article class="card${cardClass}">
       <div class="card-header-row">
@@ -459,6 +482,7 @@ function renderContentCard(item, type) {
       <h3>${item.title}</h3>
       <p>${text}</p>
       <div class="card-meta">${metaParts.join(" · ")}</div>
+      ${readLink}
       ${listenLink}
     </article>`;
 }
@@ -515,7 +539,7 @@ function renderExternalContentCta(url, label) {
 }
 
 function renderBlogPanel() {
-  const posts = WIS_DATA.blogPosts.filter((p) => p.title);
+  const posts = getBlogPosts();
   const blogCta = renderExternalContentCta(getSocialUrl("Blog"), "Read the WIS Blog →");
   if (!posts.length) {
     return blogCta + renderEmptyState("Blog posts will appear here once published.", "Blog coming soon");

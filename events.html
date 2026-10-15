@@ -36,6 +36,16 @@
   </div>
 </section>
 
+<section id="postponed-section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Postponed</div>
+      <h2>Moved to a later term</h2>
+    </div>
+    <div id="postponed-events"></div>
+  </div>
+</section>
+
 <section>
   <div class="wrap">
     <div class="section-head">
@@ -55,6 +65,13 @@
 <script>
   initLayout("events");
   document.getElementById("upcoming-events").innerHTML = renderEventCards(true);
+  const postponedHtml = renderPostponedEvents();
+  const postponedSection = document.getElementById("postponed-section");
+  if (postponedHtml) {
+    document.getElementById("postponed-events").innerHTML = postponedHtml;
+  } else if (postponedSection) {
+    postponedSection.remove();
+  }
   document.getElementById("past-events").innerHTML = renderPastEvents();
 </script>
 </body>

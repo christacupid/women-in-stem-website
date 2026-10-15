@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Women in STEM | Western University</title>
-<meta name="description" content="Women in STEM at Western University — community, mentorship, and events for women and gender-diverse students in science, technology, engineering, and math.">
+<meta name="description" content="Women in STEM at Western University — community and events for women and gender-diverse students in science, technology, engineering, and math.">
 <link rel="icon" href="images/logo/classic_logo.jpg" type="image/jpeg">
 <link rel="apple-touch-icon" href="images/logo/classic_logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +24,7 @@
       <h1 id="hero-headline"></h1>
       <div class="lede" id="hero-lede"></div>
       <div class="hero-actions">
-        <a class="btn-primary" id="hero-join-btn" href="#" target="_blank" rel="noopener noreferrer">Join the community →</a>
+        <a class="btn-primary" id="hero-join-btn" href="#" target="_blank" rel="noopener noreferrer">Become a Member →</a>
         <a class="btn-secondary" href="events.html">See upcoming events</a>
       </div>
     </div>
@@ -88,7 +88,6 @@
 
 <section class="bg-alt" id="get-involved">
   <div class="wrap">
-    <div id="director-recruitment-callout"></div>
     <div class="section-head">
       <div class="eyebrow">Get involved</div>
       <h2>Find your place in STEM</h2>
@@ -126,6 +125,7 @@
   document.getElementById("hero-lede").innerHTML = WIS_DATA.hero.lede.map((p) => `<p>${p}</p>`).join("");
   document.getElementById("hero-logo").src = WIS_DATA.links.logo;
   document.getElementById("hero-join-btn").href = getMembershipUrl();
+  document.getElementById("hero-join-btn").textContent = getMembershipLabel() + " →";
 
   document.getElementById("mission-eyebrow").textContent = WIS_DATA.mission.eyebrow;
   document.getElementById("mission-title").textContent = WIS_DATA.mission.title;
@@ -138,7 +138,6 @@
   document.getElementById("pillars").innerHTML = renderPillars();
   document.getElementById("event-list").innerHTML = renderEvents(3);
   document.getElementById("team-preview").innerHTML = renderTeamPreview();
-  document.getElementById("director-recruitment-callout").innerHTML = renderDirectorRecruitmentCallout();
   document.getElementById("involve-grid").innerHTML = renderHomeInvolvePaths();
   document.getElementById("latest-content").innerHTML = renderLatestContentPreview();
 </script>

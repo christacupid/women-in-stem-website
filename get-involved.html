@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Get Involved | Women in STEM</title>
-<meta name="description" content="Join Women in STEM — become a member, join the team, find mentorship, or partner with us.">
+<meta name="description" content="Join Women in STEM — become a member or partner with us.">
 <link rel="icon" href="images/logo/classic_logo.jpg" type="image/jpeg">
 <link rel="apple-touch-icon" href="images/logo/classic_logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,49 +21,21 @@
   <div class="wrap">
     <div class="eyebrow">Get involved</div>
     <h1>Find your place in WIS</h1>
-    <p>Whether you want to attend events, join the team, or explore mentorship — we'd love to have you.</p>
+    <p>Whether you want to attend events or partner with us — we'd love to have you.</p>
   </div>
 </section>
-
-<div id="director-recruitment"></div>
 
 <section id="member">
   <div class="wrap">
     <div class="section-head">
       <div class="eyebrow">Membership</div>
       <h2>Become a member</h2>
-      <p>Join through the Western USC Storefront to get our newsletter, event invites, and access to mentorship matching and RSVPs.</p>
+      <p>Sign up to get our newsletter, event invites, and access to WIS programming.</p>
     </div>
     <div class="join">
       <h2>Become a Member</h2>
       <p>Click below to join Women in STEM at Western University.</p>
-      <a class="btn-primary" id="member-join-btn" href="#" target="_blank" rel="noopener noreferrer">Become a Member →</a>
-    </div>
-  </div>
-</section>
-
-<section class="bg-alt" id="team">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">Join our team</div>
-      <h2>Open director roles</h2>
-      <p>We're recruiting directors for marketing, operations, and finance. All roles use the same application form.</p>
-    </div>
-    <div class="apply-grid" id="apply-grid"></div>
-  </div>
-</section>
-
-<section id="mentorship">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">Mentorship</div>
-      <h2>Become a Little Sister</h2>
-      <p>First and second-year students are matched with upper-year mentors in their field for course advice, research leads, and career guidance.</p>
-    </div>
-    <div class="join">
-      <h2>Become a Little Sister</h2>
-      <p>Apply to join the Big Sister Little Sister mentorship program as a Little Sister.</p>
-      <a class="btn-primary" id="mentorship-apply-btn" href="#" target="_blank" rel="noopener noreferrer">Become a Little Sister →</a>
+      <a class="btn-primary" id="member-join-btn" href="#" target="_blank" rel="noopener noreferrer">Sign Up →</a>
     </div>
   </div>
 </section>
@@ -90,12 +62,9 @@
 <script src="js/main.js"></script>
 <script>
   initLayout("get-involved");
-  document.getElementById("member-join-btn").href = getMembershipUrl();
-  const mentorshipBtn = document.getElementById("mentorship-apply-btn");
-  if (mentorshipBtn) mentorshipBtn.href = getMentorshipUrl();
-  const recruitmentEl = document.getElementById("director-recruitment");
-  if (recruitmentEl) recruitmentEl.outerHTML = renderDirectorRecruitmentSection();
-  document.getElementById("apply-grid").innerHTML = renderApplications();
+  const memberBtn = document.getElementById("member-join-btn");
+  memberBtn.href = getMembershipUrl();
+  memberBtn.textContent = "Sign Up →";
   document.getElementById("partnership-email").href = "mailto:" + WIS_DATA.links.email;
   document.getElementById("partnership-email").textContent = WIS_DATA.links.email;
 </script>

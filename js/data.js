@@ -1,10 +1,13 @@
 /* Women in STEM — site data (edit content here)
  *
  * Content workflow:
- * - Add events to events.upcoming / events.past (see field structure on each event object)
+ * - Add events to events.upcoming / events.past / events.postponed
+ * - Add study sessions to studySessions (set room: null until the room is confirmed)
+ * - isoDate is used only for chronological sorting; it is not shown on the site
  * - Add blogPosts and podcastEpisodes (omit entries without a title from public arrays)
+ * - For published blog posts, set url and leave status empty; use status: "Planned" for coming soon
  * - Internal planning items go in contentPlanning — not rendered on the site
- * - Set directorApplication.url when the application form is available
+ * - Set links.membership.url when the membership sign-up URL changes
  * - Set links.social[].url when verified social/content URLs are available
  */
 
@@ -15,13 +18,14 @@ const WIS_DATA = {
     location: "Western University · London, Ontario",
     disclaimer: "A student-run club, not officially affiliated with the University Students' Council.",
     /* Used in footer — matches existing approved homepage messaging */
-    missionStatement: "Empowering women and gender-diverse students in STEM through community, mentorship, research exposure, and connection.",
+    missionStatement: "Empowering women and gender-diverse students in STEM through community, research exposure, and connection.",
     westernUrl: "https://www.uwo.ca",
   },
 
   links: {
     membership: {
-      url: "https://westernusc.store/product/western-women-in-stem/",
+      url: "https://campus.hellorubric.com/?tab=memberships&s=16217",
+      label: "Become a Member",
     },
     email: "womeninstemuwo@gmail.com",
     logo: "images/logo/classic_logo.jpg",
@@ -34,22 +38,9 @@ const WIS_DATA = {
     ],
   },
 
-  mentorship: {
-    url: "https://docs.google.com/forms/d/e/1FAIpQLScEUi4kfFoiUUmBSPtUvmcg0exMSexp1zuS9Ft47A7keJXpZw/viewform?usp=header",
-    title: "Become a Little Sister",
-  },
-
-  directorApplication: {
-    url: "https://docs.google.com/forms/d/e/1FAIpQLSeZuE0pdRPMU0vu2OnhMFOWYcuFI-rymMQ1Q13A90cUiLbZKw/viewform?usp=header",
-    status: "open",
-    title: "Director Applications",
-    timing: "Applications open in September",
-  },
-
   stats: [
     { num: "250+", label: "Members across faculties" },
     { num: "15+", label: "Events run each year" },
-    { num: "40", label: "Mentorship pairs this term" },
     { num: "12", label: "Partner labs & companies" },
   ],
 
@@ -66,8 +57,8 @@ const WIS_DATA = {
     eyebrow: "At WIS",
     title: "What can you find at WIS?",
     description: [
-      "WIS offers everything from mentorship and career development to workshops, helpful resources, and social events throughout the year.",
-      "From the Toronto Trip and WeSolve Case Competition to Coffee & Croissants, Suture Clinic, Puppy Yoga, and our Big Sister Little Sister Mentorship Program, there's always something happening at WIS and plenty of ways to get involved, learn something new, and make meaningful connections.",
+      "WIS offers everything from career development to workshops, helpful resources, and social events throughout the year.",
+      "From the Toronto Trip and WeSolve Case Competition to Coffee & Croissants, Suture Clinic, Puppy Yoga, and biweekly study sessions, there's always something happening at WIS and plenty of ways to get involved, learn something new, and make meaningful connections.",
     ],
   },
 
@@ -80,9 +71,9 @@ const WIS_DATA = {
 
   pillars: [
     {
-      label: "01 - MENTORSHIP",
-      title: "Mentorship",
-      description: "Learn from students who have been where you are. Our mentorship programs connect you with upper-year students who can share advice, answer questions, and help you navigate your STEM journey at Western.",
+      label: "01 - STUDY SESSIONS",
+      title: "Study Sessions",
+      description: "Join dedicated study sessions to work on coursework, collaborate with peers, and build connections within the WIS community.",
     },
     {
       label: "02 - COMMUNITY",
@@ -96,78 +87,77 @@ const WIS_DATA = {
     },
   ],
 
+  /* Study session schedule — add a room value when it is confirmed */
+  studySessions: [
+    {
+      date: "Thursday, October 1, 2026",
+      dateShort: "OCT 1",
+      isoDate: "2026-10-01",
+      location: "Weldon Library",
+      room: "Rooms M4 and M6",
+      theme: "Development",
+      status: "past",
+    },
+    {
+      date: "Thursday, October 22, 2026",
+      dateShort: "OCT 22",
+      isoDate: "2026-10-22",
+      location: "Taylor Library",
+      room: "Media Rooms 171A and 171D",
+      theme: "Community Inclusion: BSLS",
+      status: null,
+    },
+    {
+      date: "Thursday, November 5, 2026",
+      dateShort: "NOV 5",
+      isoDate: "2026-11-05",
+      location: "Weldon Library",
+      room: null,
+      theme: "Community Inclusion: BSLS",
+      status: null,
+    },
+    {
+      date: "Thursday, November 19, 2026",
+      dateShort: "NOV 19",
+      isoDate: "2026-11-19",
+      location: "Taylor Library",
+      room: null,
+      theme: "Development (Exam Study Skills)",
+      status: null,
+    },
+    {
+      date: "Thursday, December 3, 2026",
+      dateShort: "DEC 3",
+      isoDate: "2026-12-03",
+      location: "Weldon Library",
+      room: null,
+      theme: "Community Inclusion: BSLS",
+      status: null,
+    },
+  ],
+
   events: {
     upcoming: [
       {
-        title: "Development + CI Study Sessions",
-        category: "Academic",
-        date: "Ongoing biweekly beginning September 17, 2026",
-        dateShort: "SEP 17+",
-        time: "12:00–2:00 PM",
-        location: "Taylor or Weldon study room — exact room TBD",
-        description: "Biweekly study sessions providing members with a dedicated space to work on coursework, collaborate with peers, and build connections within the WIS community. Some sessions may feature themes such as MCAT preparation.",
+        title: "Internships / Career Pod",
+        category: "Professional Development",
+        date: "October 21, 2026",
+        dateShort: "OCT 21",
+        isoDate: "2026-10-21",
+        time: "Time TBD",
+        location: "Location TBD",
+        description: null,
         purpose: null,
         registrationUrl: null,
         status: null,
         notes: null,
-      },
-      {
-        title: "BSLS — Little Applications Open",
-        category: "Mentorship",
-        date: "September 21–27, 2026",
-        dateShort: "SEP 21–27",
-        time: null,
-        location: "Online",
-        description: "Forms go online for Littles to apply for the mentorship program.",
-        purpose: null,
-        registrationUrl: null,
-        status: null,
-        notes: "Pairings are expected to be released by email October 5, 2026.",
-      },
-      {
-        title: "Cookie Fundraiser",
-        category: "Fundraiser",
-        date: "October 5–9, 2026 (tentative)",
-        dateShort: "OCT 5–9",
-        time: null,
-        location: "Campus booths, including Ivey, Natural Science, UCC, and Weldon areas",
-        description: "A campus-wide cookie fundraiser featuring a variety of flavours. Proceeds support WIS programming and help introduce more students to the club.",
-        purpose: null,
-        registrationUrl: null,
-        status: "Tentative date",
-        notes: null,
-      },
-      {
-        title: "Bracelet Making Social",
-        category: "Social",
-        date: "October 7, 2026",
-        dateShort: "OCT 7",
-        time: null,
-        location: "Weldon Community Room or UCC Community Room — exact location TBD",
-        description: "Members can choose charms and make bracelets for themselves while connecting with the WIS community.",
-        purpose: null,
-        registrationUrl: null,
-        status: null,
-        notes: "$5 for non-members.",
-      },
-      {
-        title: "Suture Clinic",
-        category: "Professional Development / Healthcare",
-        date: "October 7, 2026",
-        dateShort: "OCT 7",
-        time: "6:00 PM",
-        location: "UC Room — exact room TBD",
-        description: "A hands-on workshop where participants learn and practice basic suturing techniques under the guidance of trained instructors. The session introduces foundational clinical skills and provides an opportunity to explore healthcare careers.",
-        purpose: null,
-        registrationUrl: null,
-        status: null,
-        notes: "Potential collaboration with Pre-Med society / Medical School Fair — not confirmed.",
       },
       {
         title: "Classroom Visits — Toronto Trip Promotion",
         category: "Professional Development",
         date: "October 26–30, 2026",
         dateShort: "OCT 26–30",
+        isoDate: "2026-10-26",
         time: null,
         location: "Western University classrooms / STEM lecture halls",
         description: "WIS Events VPs and Directors will visit STEM lecture halls to introduce students to the Toronto Trip, explain the trip and its benefits, and encourage students to sign up.",
@@ -181,6 +171,7 @@ const WIS_DATA = {
         category: "Social",
         date: "First week of November 2026 (tentative)",
         dateShort: "EARLY NOV",
+        isoDate: "2026-11-01",
         time: null,
         location: "UC room",
         description: "A creative BSLS-only social after Big Sister Little Sister pairings are announced. Members can decorate and personalize iced coffee cups while connecting with their Bigs and Littles.",
@@ -190,12 +181,13 @@ const WIS_DATA = {
         notes: null,
       },
       {
-        title: "Speed Coffee Chatting — Group 1",
+        title: "Speed Coffee Chatting",
         category: "Professional Development / Networking",
         date: "Wednesday, November 4, 2026",
         dateShort: "NOV 4",
-        time: "5:00 PM",
-        location: "UC room",
+        isoDate: "2026-11-04",
+        time: "6:00–7:30 PM",
+        location: "UCC 3220",
         description: "A networking event where members rotate through short, timed conversations with upper-year students, alumni, or graduate students. Ask questions about academics, research, career paths, internships, and professional school in a relaxed setting.",
         purpose: null,
         registrationUrl: null,
@@ -205,14 +197,29 @@ const WIS_DATA = {
       {
         title: "Connect to Success",
         category: "Professional Development",
-        date: "Mid-November 2026 (tentative)",
-        dateShort: "MID NOV",
-        time: null,
+        date: "Sunday, November 15, 2026",
+        dateShort: "NOV 15",
+        isoDate: "2026-11-15",
+        time: "2:00 PM",
         location: "Mustang Lounge",
         description: "A professional development workshop to help members prepare for the Toronto Trip by strengthening resume, LinkedIn, networking, and professional communication skills. Includes interactive presentations, networking tips, and time to connect with other trip attendees.",
         purpose: null,
         registrationUrl: null,
-        status: "Tentative date — timing depends on the Toronto Trip",
+        status: null,
+        notes: null,
+      },
+      {
+        title: "Suture Clinic",
+        category: "Professional Development / Healthcare",
+        date: "Monday, November 16, 2026",
+        dateShort: "NOV 16",
+        isoDate: "2026-11-16",
+        time: "Time TBD",
+        location: "Location TBD",
+        description: "A hands-on workshop where participants learn and practice basic suturing techniques under the guidance of trained instructors. The session introduces foundational clinical skills and provides an opportunity to explore healthcare careers.",
+        purpose: null,
+        registrationUrl: null,
+        status: null,
         notes: null,
       },
       {
@@ -220,6 +227,7 @@ const WIS_DATA = {
         category: "Social",
         date: "November 15–21 or November 22–27, 2026 (tentative)",
         dateShort: "MID–LATE NOV",
+        isoDate: "2026-11-15",
         time: null,
         location: "Determined by each group",
         description: "Toronto Trip groups will meet for a pre-trip social with their group members and WIS executive group lead. Each group can choose an activity such as a board game night, dinner, paint night, or virtual social.",
@@ -229,23 +237,11 @@ const WIS_DATA = {
         notes: null,
       },
       {
-        title: "Toronto Trip",
-        category: "Professional Development / Networking",
-        date: "November 2026 — date to be announced",
-        dateShort: "NOV TBA",
-        time: null,
-        location: "Toronto, Ontario, including locations surrounding the MaRS Discovery District",
-        description: "A full-day experience where approximately 100 selected WIS members from various STEM programs travel to Toronto to visit firms, laboratories, hospitals, and research facilities. Students can network with professionals, connect with other STEM students, and explore diverse STEM careers.",
-        purpose: "Career exploration, professional development, networking, and exposure to diverse STEM career paths.",
-        registrationUrl: null,
-        status: "Date TBA — potential dates November 20 or November 27, 2026",
-        notes: null,
-      },
-      {
         title: "Puppy Yoga",
         category: "Wellness / Social",
         date: "November 19, 2026",
         dateShort: "NOV 19",
+        isoDate: "2026-11-19",
         time: null,
         location: "UCC Community Room",
         description: "A wellness event featuring puppy yoga sessions designed to give members a fun opportunity to relax and recharge during the academic term.",
@@ -255,10 +251,39 @@ const WIS_DATA = {
         notes: null,
       },
       {
+        title: "Toronto Trip",
+        category: "Professional Development / Networking",
+        date: "November 2026 — date to be announced",
+        dateShort: "NOV TBA",
+        isoDate: "2026-11-20",
+        time: null,
+        location: "Toronto, Ontario, including locations surrounding the MaRS Discovery District",
+        description: "A full-day experience where approximately 100 selected WIS members from various STEM programs travel to Toronto to visit firms, laboratories, hospitals, and research facilities. Students can network with professionals, connect with other STEM students, and explore diverse STEM careers.",
+        purpose: "Career exploration, professional development, networking, and exposure to diverse STEM career paths.",
+        registrationUrl: null,
+        status: "Date TBA — potential dates November 20 or November 27, 2026",
+        notes: null,
+      },
+      {
+        title: "Coffee & Croissants",
+        category: "Social",
+        date: "Week of November 23, 2026",
+        dateShort: "NOV 23",
+        isoDate: "2026-11-23",
+        time: "Time TBD",
+        location: "Location TBD",
+        description: "A post-Toronto-trip social, run as a collaboration between the Operations and Events teams.",
+        purpose: null,
+        registrationUrl: null,
+        status: "Exact date TBD",
+        notes: null,
+      },
+      {
         title: "Wellness Packages — Fall",
         category: "Wellness",
         date: "End of November 2026 (tentative)",
         dateShort: "LATE NOV",
+        isoDate: "2026-11-30",
         time: null,
         location: "Taylor Library boothing table",
         description: "Wellness packages will be distributed to members during exam season as a small reminder to prioritize wellbeing during a stressful time of year.",
@@ -268,23 +293,11 @@ const WIS_DATA = {
         notes: null,
       },
       {
-        title: "Coffee & Croissants",
-        category: "Professional Development / Networking",
-        date: "Late November–early December 2026 — exact date TBD",
-        dateShort: "LATE NOV",
-        time: null,
-        location: "Mustang Lounge or another Western University location — TBD",
-        description: "A career-focused networking event where members can ask WIS executives and experienced students about internships, research, networking, interviews, coffee chats, career paths, and university experiences.",
-        purpose: "Research & Internship Opportunities / Student Experiences",
-        registrationUrl: null,
-        status: "Date TBD",
-        notes: null,
-      },
-      {
         title: "Coco & Cram",
         category: "Academic / Social",
         date: "December 1, 2026 (tentative)",
         dateShort: "DEC 1",
+        isoDate: "2026-12-01",
         time: null,
         location: "UC classroom",
         description: "A cozy December study social where WIS members can study, connect with senior executives and other members, and enjoy a festive atmosphere with hot chocolate or other refreshments.",
@@ -298,6 +311,7 @@ const WIS_DATA = {
         category: "Social",
         date: "Second week of classes in January 2027 (tentative)",
         dateShort: "JAN 2027",
+        isoDate: "2027-01-12",
         time: null,
         location: "The Spoke",
         description: "A themed trivia night hosted in partnership with The Spoke, giving WIS members a chance to relax, meet others, and enjoy a social evening together.",
@@ -311,6 +325,7 @@ const WIS_DATA = {
         category: "Wellness / Social",
         date: "Thursday, January 14, 2027",
         dateShort: "JAN 14",
+        isoDate: "2027-01-14",
         time: "6:00 PM",
         location: "UCC or UC classroom",
         description: "A creative workshop where participants design personalized vision boards reflecting academic, personal, and professional goals for the upcoming year or semester. Use craft supplies, photos, quotes, and other materials while connecting with peers in a relaxed environment.",
@@ -324,6 +339,7 @@ const WIS_DATA = {
         category: "Social",
         date: "Thursday before Reading Week 2027 (tentative)",
         dateShort: "FEB 2027",
+        isoDate: "2027-02-12",
         time: null,
         location: "Saga Board Games & Coffee, downtown London",
         description: "A BSLS-only social at Saga Board Games & Coffee where Bigs and Littles can spend time together in a relaxed and engaging environment.",
@@ -337,6 +353,7 @@ const WIS_DATA = {
         category: "Professional Development",
         date: "Approximately one week before the case competition — exact date TBD",
         dateShort: "FEB/MAR TBA",
+        isoDate: "2027-02-28",
         time: null,
         location: "Small lecture room or Zoom — TBD",
         description: "A workshop introducing participants to case competition fundamentals, how to approach a case, and what to expect during the competition.",
@@ -350,6 +367,7 @@ const WIS_DATA = {
         category: "Professional Development",
         date: "February/March 2027 — exact date TBD",
         dateShort: "FEB/MAR 2027",
+        isoDate: "2027-03-01",
         time: null,
         location: "Western University room — TBD",
         description: "A semester-two Coffee & Croissants event focused on ITR-related questions, student experiences, and career/academic conversations with WIS executives.",
@@ -363,6 +381,7 @@ const WIS_DATA = {
         category: "Professional Development / Competition",
         date: "March 2027 — exact date TBD",
         dateShort: "MAR 2027",
+        isoDate: "2027-03-06",
         time: null,
         location: "Western University — exact rooms TBD",
         description: "A beginner-level case competition where WIS members work in teams to develop a solution to a case and present it to a panel of judges. The experience will also include speakers and workshops focused on networking, case competition skills, and LinkedIn development.",
@@ -376,6 +395,7 @@ const WIS_DATA = {
         category: "Professional Development / Networking",
         date: "March 2027, during Women’s Week (tentative)",
         dateShort: "MAR 2027",
+        isoDate: "2027-03-08",
         time: null,
         location: "UC room",
         description: "A networking event where members can connect with WIS executives, upper-year students, alumni, and professionals to learn about co-op experiences, internships, research opportunities, and different career pathways in STEM. Includes small-group discussions and an informal Q&A.",
@@ -389,6 +409,7 @@ const WIS_DATA = {
         category: "Fundraiser",
         date: "March 6–9, 2027 (tentative)",
         dateShort: "MAR 6–9",
+        isoDate: "2027-03-06",
         time: null,
         location: "Accessible campus booth",
         description: "A campus bouquet-making fundraiser where students can create bouquets for themselves or someone they love. Different bouquet sizes and individual flowers will be available, with guidance on how to assemble them.",
@@ -402,6 +423,7 @@ const WIS_DATA = {
         category: "Social",
         date: "During International Women’s Week 2027 (tentative)",
         dateShort: "IWW 2027",
+        isoDate: "2027-03-08",
         time: null,
         location: "UCC Atrium booth",
         description: "Celebrate International Women’s Week by creating your own bouquet. Participants can choose flowers and create a personalized bouquet, with paper and a small card provided.",
@@ -415,6 +437,7 @@ const WIS_DATA = {
         category: "Wellness / Social",
         date: "End of March 2027 (tentative)",
         dateShort: "LATE MAR",
+        isoDate: "2027-03-31",
         time: null,
         location: "Outdoor route beginning near campus",
         description: "A 5K community run beginning near campus that promotes fitness, wellness, and connection among WIS members. The event may also be used as a fundraiser.",
@@ -428,6 +451,7 @@ const WIS_DATA = {
         category: "Wellness",
         date: "Beginning of April 2027 (tentative)",
         dateShort: "EARLY APR",
+        isoDate: "2027-04-01",
         time: null,
         location: "Taylor Library boothing tables",
         description: "A second wellness package distribution to support members during the exam period and encourage students to prioritize their wellbeing during a stressful time.",
@@ -437,12 +461,39 @@ const WIS_DATA = {
         notes: null,
       },
     ],
-    past: [],
+    past: [
+      {
+        title: "Charm Bracelet Social",
+        category: "Social",
+        date: "October 7, 2026",
+        dateShort: "OCT 7",
+        isoDate: "2026-10-07",
+        recap: null,
+      },
+    ],
+    postponed: [
+      {
+        title: "Cookie Fundraiser",
+        category: "Fundraiser",
+        date: null,
+        dateShort: null,
+        isoDate: null,
+        time: null,
+        location: null,
+        description: "A campus-wide cookie fundraiser featuring a variety of flavours. Proceeds support WIS programming and help introduce more students to the club.",
+        status: "Postponed to Winter 2027",
+      },
+    ],
   },
 
-  /* Add verified resources here when available */
   resources: {
-    academic: [],
+    academic: [
+      {
+        title: "Study Skills 101",
+        url: "https://drive.google.com/file/d/1dpk0ywFGDwyL-EU43BcKr0IHzb_2OYXA/view?usp=sharing",
+        description: "Study skills resource",
+      },
+    ],
     career: [],
     stem: [],
     wellbeing: [],
@@ -452,7 +503,7 @@ const WIS_DATA = {
     { key: "academic", label: "Academic", blurb: "Study resources, course support, and academic tools for STEM students." },
     { key: "career", label: "Career", blurb: "Resume, interview, networking, and career development resources." },
     { key: "stem", label: "STEM", blurb: "Research organizations, professional groups, conferences, and funding information." },
-    { key: "wellbeing", label: "Community & Well-being", blurb: "Campus support, mentorship, and student well-being resources." },
+    { key: "wellbeing", label: "Community & Well-being", blurb: "Campus support and student well-being resources." },
   ],
 
   values: [
@@ -483,31 +534,35 @@ const WIS_DATA = {
   ],
 
   about: {
-    whoWeAre: "Women in STEM at Western is a student-run community dedicated to empowering women and welcoming students from across all STEM programs. We create opportunities to connect, explore, and grow through mentorship, research, career development, and community.",
+    whoWeAre: "Women in STEM at Western is a student-run community dedicated to empowering women and welcoming students from across all STEM programs. We create opportunities to connect, explore, and grow through community, research, and career development.",
   },
 
-  /* Blog posts — add listeningUrl when published externally */
+  /* Blog posts — set url when published; use status: "Planned" for coming soon */
   blogPosts: [
+    {
+      title: "Move More, Stress Less: Fun Ways to Stay Active During the School Year",
+      author: null,
+      date: "September 22, 2026",
+      isoDate: "2026-09-22",
+      category: "Student Life / Wellness",
+      description: "A guide to staying active during a busy school year, including Western resources, gym and intramural opportunities, and outdoor activities.",
+      status: null,
+      url: "https://wisblog.wixsite.com/womeninstemuwo/post/move-more-stress-less-fun-ways-to-stay-active-during-the-school-year",
+    },
     {
       title: "Scholarships",
       author: "Finance",
       date: "September 18, 2026",
+      isoDate: "2026-09-18",
       category: "Financial Resources",
       description: "A guide to scholarship opportunities and resources for students.",
       status: "Planned",
     },
     {
-      title: "Ways to Stay Active During the School Year",
-      author: "Operations",
-      date: "September 22, 2026",
-      category: "Student Life / Wellness",
-      description: "A guide to staying active during a busy school year, including Western resources, gym and intramural opportunities, and outdoor activities.",
-      status: "Planned",
-    },
-    {
       title: "I Want to Switch Programs",
       author: "Operations",
-      date: "October 20, 2026",
+      date: "October 22, 2026",
+      isoDate: "2026-10-22",
       category: "Academic / Student Support",
       description: "A guide for students considering changing programs, including questions to consider and where to seek guidance.",
       status: "Planned",
@@ -516,6 +571,7 @@ const WIS_DATA = {
       title: "Standardized Testing Series",
       author: "Development",
       date: "November 3, 2026",
+      isoDate: "2026-11-03",
       category: "Academic / Career",
       description: "A planned content series related to standardized testing.",
       status: "Planned",
@@ -524,6 +580,7 @@ const WIS_DATA = {
       title: "Investments",
       author: "Finance",
       date: "November 10, 2026",
+      isoDate: "2026-11-10",
       category: "Financial Resources",
       description: "An educational introduction to investing.",
       status: "Planned",
@@ -532,6 +589,7 @@ const WIS_DATA = {
       title: "Volunteer Opportunities in London",
       author: "Operations",
       date: "November 17, 2026",
+      isoDate: "2026-11-17",
       category: "Opportunities",
       description: "A guide to volunteer opportunities in London and how students can find and apply for opportunities.",
       status: "Planned",
@@ -543,10 +601,10 @@ const WIS_DATA = {
     {
       title: "The Art of Teaching with Dr. Derek McLachlin",
       host: "Audrey",
-      date: "September 29, 2026",
+      date: null,
       category: "Career / Academia",
       description: "An exploration of Dr. Derek McLachlin's journey from research scientist to educator, how his biochemical research background shaped his teaching approach, and his interest in the scholarship of teaching and learning.",
-      status: "Recorded",
+      status: "Planned",
       listeningUrl: null,
     },
     {
@@ -591,27 +649,8 @@ const WIS_DATA = {
     ],
   },
 
-  applications: [
-    {
-      department: "Marketing",
-      title: "Director of Marketing",
-      description: "Lead campaigns, social media, and brand outreach for the club.",
-    },
-    {
-      department: "Operations",
-      title: "Director of Operations",
-      description: "Help run day-to-day club logistics, planning, and internal coordination.",
-    },
-    {
-      department: "Finance",
-      title: "Director of Finance",
-      description: "Manage budgets, funding requests, and financial reporting for the team.",
-    },
-  ],
-
   /* Homepage team preview — first N members shown on index.html (full roster stays in team[]) */
   teamPreviewCount: 5,
-
 
   team: [
     {
@@ -661,7 +700,7 @@ const WIS_DATA = {
       group: "Community Inclusion",
       members: [
         { name: "Ashley Oswald", role: "VP Community Inclusion", initials: "A.O.", image: "headshots/cropped_headshots/Ashley_Oswald.jpg" },
-        { name: "Mufliha Fatimah Said", role: "VP Community Inclusion", initials: "M.S.", image: "headshots/cropped_headshots/Mufliha_Fatimah_Said.jpg" },
+        { name: "Angely Mukeshimana", role: "VP Community Inclusion", initials: "A.M." },
       ],
     },
   ],
