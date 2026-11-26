@@ -135,7 +135,8 @@ function getBlogPosts() {
   const posts = (WIS_DATA.blogPosts || []).filter((post) => post.title);
   const published = posts
     .filter((post) => !isComingSoon(post))
-    .sort((a, b) => getSortDate(b).localeCompare(getSortDate(a)));
+    /* Published posts without an isoDate yet are treated as newest */
+    .sort((a, b) => (getSortDate(b) || "9999").localeCompare(getSortDate(a) || "9999"));
   const upcoming = posts
     .filter(isComingSoon)
     .sort((a, b) => (getSortDate(a) || "9999").localeCompare(getSortDate(b) || "9999"));
@@ -143,6 +144,15 @@ function getBlogPosts() {
 }
 
 /** Flatten team groups into a single member list (preserves data.js order). */
+/** Published episodes first (newest first), then coming-soon episodes. */
+function getPodcastEpisodes() {
+  const episodes = (WIS_DATA.podcastEpisodes || []).filter((ep) => ep.title);
+  const published = episodes
+    .filter((ep) => !isComingSoon(ep))
+    .sort((a, b) => (getSortDate(b) || "9999").localeCompare(getSortDate(a) || "9999"));
+  return [...published, ...episodes.filter(isComingSoon)];
+}
+
 function getAllTeamMembers() {
   return WIS_DATA.team.flatMap((group) =>
     group.members.map((m) => ({ ...m, group: group.group }))
@@ -425,7 +435,7 @@ function renderHomeInvolvePaths() {
 
 function renderLatestContentPreview() {
   const blogPosts = getBlogPosts();
-  const podcastEpisodes = WIS_DATA.podcastEpisodes.filter((ep) => ep.title);
+  const podcastEpisodes = getPodcastEpisodes();
   const hasBlog = blogPosts.length > 0;
   const hasPodcast = podcastEpisodes.length > 0;
   const hasSpotlights = WIS_DATA.spotlights.length > 0;
@@ -480,8 +490,8 @@ function renderContentCard(item, type) {
         ${statusBadge}
       </div>
       <h3>${item.title}</h3>
-      <p>${text}</p>
-      <div class="card-meta">${metaParts.join(" · ")}</div>
+      ${text ? `<p>${text}</p>` : ""}
+      ${metaParts.length ? `<div class="card-meta">${metaParts.join(" · ")}</div>` : ""}
       ${readLink}
       ${listenLink}
     </article>`;
@@ -548,7 +558,7 @@ function renderBlogPanel() {
 }
 
 function renderPodcastPanel() {
-  const episodes = WIS_DATA.podcastEpisodes.filter((ep) => ep.title);
+  const episodes = getPodcastEpisodes();
   const podcastCta = renderExternalContentCta(getSocialUrl("Podcast"), "Listen on Spotify →");
   if (!episodes.length) {
     return podcastCta + renderEmptyState("Podcast episodes will appear here once published.", "Podcast coming soon");
